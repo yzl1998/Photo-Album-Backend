@@ -2,6 +2,29 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Photo Album Lambda
 Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      OpenApiVersion: "3.0.1"
+      StageName: dev2
+      DefinitionUri: ai-photo-search-oas30-apigateway.yaml
+  PhotoS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      AccessControl: PublicRead
+      BucketName: photos-6998-hw2
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Date
+            Id: myCORSRuleId1
   IndexPhotosLambda:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -14,11 +37,12 @@ Resources:
       Timeout: 30
       Role: 'arn:aws:iam::261903827858:role/service-role/6998hw2-LF1-role-2qrhedw9'
       Events:
-        getAZsAPI:
-          Type: Api
+        UploadPhoto:
+          Type: S3
           Properties:
-            Path: /getazs
-            Method: get
+            Bucket:
+              Ref: PhotoS3Bucket
+            Events: s3:ObjectCreated:*
       Environment:
         Variables:
           REGION: us-east-1
@@ -34,11 +58,13 @@ Resources:
       Timeout: 30
       Role: 'arn:aws:iam::261903827858:role/service-role/search-photos-role-bfdiy8sg'
       Events:
-        getAZsAPI:
+        ApiGetEvent:
           Type: Api
           Properties:
-            Path: /getazs
             Method: get
+            Path: /search
+            RestApiId: 
+              Ref: ApiGatewayApi
       Environment:
         Variables:
           REGION: us-east-1
