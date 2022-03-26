@@ -7,7 +7,7 @@ Resources:
     DeletionPolicy: Retain
     Properties:
       AccessControl: PublicRead
-      BucketName: photos-6998-hw2
+      BucketName: hw2-photos-s3-bucket
       CorsConfiguration:
         CorsRules:
           - AllowedHeaders:
