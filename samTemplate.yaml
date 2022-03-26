@@ -8,10 +8,6 @@ Resources:
       OpenApiVersion: "3.0.1"
       StageName: dev2
       DefinitionUri: ai-photo-search-oas30-apigateway.yaml
-      Cors:
-        AllowMethods: "'GET, PUT, OPTIONS'"
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token, X-Amz-Meta-CustomLabels'"
-        AllowOrigin: "'*'"
   PhotoS3Bucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
