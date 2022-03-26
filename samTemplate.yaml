@@ -5,7 +5,7 @@ Resources:
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      OpenApiVersion: "3.0.1"
+      OpenApiVersion: "2.0"
       StageName: dev2
       DefinitionUri: ai-photo-search-oas30-apigateway.yaml
   PhotoS3Bucket:
