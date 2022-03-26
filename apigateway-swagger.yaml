@@ -5,7 +5,7 @@ info:
     \ at Columbia University."
   version: "1.0.0"
   title: "AI Photo Search"
-host: "dx1xq84dhi.execute-api.us-east-1.amazonaws.com"
+
 basePath: "/dev2"
 schemes:
 - "https"
