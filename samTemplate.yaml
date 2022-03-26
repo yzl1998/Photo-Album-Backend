@@ -2,6 +2,23 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Photo Album Lambda
 Resources:
+  PhotoS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      AccessControl: PublicRead
+      BucketName: photos-6998-hw2
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Date
+            Id: myCORSRuleId1
   IndexPhotosLambda:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -17,6 +34,8 @@ Resources:
         UploadPhoto:
           Type: S3
           Properties:
+            Bucket:
+              Ref: PhotoS3Bucket
             Events: s3:ObjectCreated:*
       Environment:
         Variables:
