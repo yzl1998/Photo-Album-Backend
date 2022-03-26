@@ -7,7 +7,7 @@ Resources:
     Properties:
       OpenApiVersion: "2.0"
       StageName: dev2
-      DefinitionUri: ai-photo-search-oas30-apigateway.yaml
+      DefinitionUri: apigateway-swagger.yaml
   PhotoS3Bucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
