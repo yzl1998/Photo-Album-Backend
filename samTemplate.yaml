@@ -4,7 +4,6 @@ Description: Photo Album Lambda
 Resources:
   PhotoS3Bucket:
     Type: 'AWS::S3::Bucket'
-    DeletionPolicy: Retain
     Properties:
       AccessControl: PublicRead
       BucketName: hw2-photos-s3-bucket
