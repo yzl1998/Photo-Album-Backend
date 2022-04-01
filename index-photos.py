@@ -17,14 +17,14 @@ def lambda_handler(event, context):
     print(event)
     rekognition_client = boto3.client('rekognition', region_name='us-east-1')
     s3 = boto3.client('s3')
-    
-    
+
+    #
     for rec in event['Records']:
-        
+
         json_data = {}
         name = rec['s3']['bucket']['name']
         key = rec['s3']['object']['key']
-        
+
         obj = s3.get_object(Bucket=name, Key=key)
         print(obj)
         try:
@@ -33,8 +33,8 @@ def lambda_handler(event, context):
             json_data['x-amz-meta-customlabels'] = c_label
         except:
             print("no custom labels")
-        
-        
+
+
         rekognition_response = rekognition_client.detect_labels(
             Image={
                 'S3Object': {
@@ -45,8 +45,8 @@ def lambda_handler(event, context):
             MaxLabels=123,
             MinConfidence=70,
         )
-        
-        
+
+
         if rekognition_response is not None:
             json_data['objectKey'] = key
             id = json_data['objectKey']
@@ -59,30 +59,30 @@ def lambda_handler(event, context):
                 json_data["labels"].append(label['Name'])
             print('Json Object is:')
             print("{}".format(json_data))
-            
-            
+
+
             json_data = json.dumps(json_data)
             url = es_endpoint + '/' + es_index + '/' + es_type + '/'
             #url = es_endpoint
             print("POST url is:", url)
-            
+
             headers = {'Content-Type': 'application/json'}
             headers.update(urllib3.util.make_headers(basic_auth = 'hw2:123456Hw2!'))
-            
+
             http = urllib3.PoolManager()
             response = http.request('POST', url,
                         body = json_data,
                         headers = headers,
                         retries = False)
-            
+
             print("response form ES is:")
             print(response)
-            
+
             data = json.loads(response.data)
             print(data)
 
-            
-    
+
+
     return {
         'statusCode': 200,
         'headers': {
