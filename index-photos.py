@@ -18,7 +18,7 @@ def lambda_handler(event, context):
     rekognition_client = boto3.client('rekognition', region_name='us-east-1')
     s3 = boto3.client('s3')
 
-    #
+    # comment
     for rec in event['Records']:
 
         json_data = {}
